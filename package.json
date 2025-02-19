@@ -1,0 +1,17 @@
+{
+  "name": "taylorquotes",
+  "version": "1.0.0",
+  "main": "taylor.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "masto": "^6.10.3",
+    "node-schedule": "^2.1.1"
+  }
+}
