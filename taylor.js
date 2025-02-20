@@ -48,7 +48,7 @@ async function post(quote) {
     status: status,
     spoilerText: spoiler,
   });
-  console.log(status.url);
+  console.log(post.url);
 }
 
 schedule.scheduleJob("13 13 * * *", async () => {
