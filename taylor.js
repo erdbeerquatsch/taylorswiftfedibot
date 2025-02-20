@@ -26,7 +26,38 @@ const getQuote = () => {
 
   let number = Math.random() * quotes.length;
   return quotes[Math.round(number)];
-  // return quotes[11];
+};
+
+const updateUsedQuote = (quote) => {
+  try {
+    fs.writeFileSync("./usedquotes", quote + "\n", { flag: "a" });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const readUsedQuote = () => {
+  try {
+    return fs.readFileSync("./usedQuotes", "utf8");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getUnusedQuote = () => {
+  let data = readUsedQuote();
+
+  let usedQuotes = data.split("\n");
+
+  while (true) {
+    let quote = getQuote();
+
+    if (!usedQuotes.includes(quote)) {
+      return quote;
+    }
+
+    console.log("Quote already used: " + quote);
+  }
 };
 
 async function post(quote) {
@@ -52,6 +83,12 @@ async function post(quote) {
 }
 
 schedule.scheduleJob("13 13 * * *", async () => {
-  let quote = getQuote();
+  let quote = getUnusedQuote();
+
+  if (quote === undefined) {
+    console.log("Every quote is used. Do nothing.");
+    return;
+  }
   await post(quote);
+  updateUsedQuote(quote);
 });
