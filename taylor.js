@@ -23,10 +23,10 @@ const getQuote = () => {
   let data = readFile();
 
   let quotes = data.split("\n");
-  //console.log(data);
 
   let number = Math.random() * quotes.length;
   return quotes[Math.round(number)];
+  // return quotes[11];
 };
 
 async function post(quote) {
@@ -35,10 +35,19 @@ async function post(quote) {
     accessToken: process.env.TOKEN,
   });
 
-  const status = await masto.v1.statuses.create({
-    status: quote,
-  });
+  const cwQuote = quote.split(";");
 
+  const status = cwQuote[0];
+  let spoiler = null;
+
+  if (cwQuote.length === 2) {
+    spoiler = cwQuote[1];
+  }
+
+  const post = await masto.v1.statuses.create({
+    status: status,
+    spoilerText: spoiler,
+  });
   console.log(status.url);
 }
 
